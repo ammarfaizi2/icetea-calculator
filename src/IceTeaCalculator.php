@@ -14,8 +14,18 @@ class IceTeaCalculator
 	 */
 	public function __construct()
 	{
+		cli_set_process_title(APP_PROCESS_TITLE);
+		printf("Running %s...", APP_PROCESS_TITLE);
 		$this->app = new Application(GLADE_FILE, "main-window");
 		$this->app->setTitle("IceTea Calculator");
+	}
+
+	/**
+	 * Desctructor.
+	 */
+	public function __destruct()
+	{
+		printf("\n\nClosing %s...\n", APP_PROCESS_TITLE);
 	}
 
 	/**
@@ -25,7 +35,7 @@ class IceTeaCalculator
 	{
 		$appPointer = &$this->app;
 
-		for ($i=0; $i <= 9; $i++) { 
+		for ($i=0; $i <= 9; $i++) {
 			$this->app->find("in-{$i}")->on("clicked", function() use (&$appPointer, $i) {
 				$appPointer->find("input")->setText(
 					$appPointer->find("input")->getText().$i
@@ -66,7 +76,7 @@ class IceTeaCalculator
 	    	$input = trim($appPointer->find("input")->getText());
 	    	if ($input === "") {
 	    		$appPointer->find("result")->setText(
-	    			"Please fill the input first!"
+	    			"Please fill the mathematical expression first!"
 	    		);
 	    	} else {
 

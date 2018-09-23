@@ -47,7 +47,7 @@ PHPX_METHOD(GtkApplication, construct)
     GtkWindow *window = GTK_WINDOW(gtk_builder_get_object(builder, args[1].toCString()));
     if (window == nullptr)
     {
-        error(E_ERROR, "main window[id=%s] is not eixsts.", args[1].toCString());
+        error(E_ERROR, "main window[id=%s] does not exists.", args[1].toCString());
         return;
     }
 
