@@ -7,7 +7,7 @@ use Gtk\Application;
  * @license MIT
  * @version 0.0.1
  */
-class IceTea
+class IceTeaCalculator
 {	
 	/**
 	 * Constructor.
@@ -15,7 +15,7 @@ class IceTea
 	public function __construct()
 	{
 		$this->app = new Application(GLADE_FILE, "main-window");
-		$this->app->setTitle("Ice Tea Calculator");
+		$this->app->setTitle("IceTea Calculator");
 	}
 
 	/**
@@ -24,6 +24,42 @@ class IceTea
 	public function build(): void
 	{
 		$appPointer = &$this->app;
+
+		for ($i=0; $i <= 9; $i++) { 
+			$this->app->find("in-{$i}")->on("clicked", function() use (&$appPointer, $i) {
+				$appPointer->find("input")->setText(
+					$appPointer->find("input")->getText().$i
+				);
+			});
+		}
+
+		foreach ([
+			"+" => "plus",
+			"-" => "min",
+			"/" => "divide",
+			"*" => "times",
+			"^" => "xor",
+			"&" => "and",
+			"|" => "or",
+			"!" => "not",
+			"(" => "open-par",
+			")" => "close-par",
+			"return" => "return",
+			";" => "semicolon"
+		] as $key => $value) {
+			$this->app->find("in-{$value}")->on("clicked", function () use (&$appPointer, $key) {
+				$appPointer->find("input")->setText(
+					$appPointer->find("input")->getText().$key
+				);
+			});
+		}
+
+		$this->app->find("del")->on("clicked", function () use (&$appPointer, $key) {
+			$text = $appPointer->find("input")->getText();
+			$appPointer->find("input")->setText(
+				substr($text, 0, strlen($text) - 1)
+			);
+		});
 
 		$this->app->find("calculate")->on("clicked", function() use (&$appPointer) {
 	    	
